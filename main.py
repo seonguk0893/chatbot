@@ -1,6 +1,3 @@
-from dotenv import load_dotenv
-load_dotenv()
-
 import streamlit as st
 from streamlit_chat import message
 from langchain.embeddings.openai import OpenAIEmbeddings
@@ -35,35 +32,7 @@ with col3:
 
 col4, col5, col6 = st.columns([1,4,1])
 with col5:
-    def load_api_key():
-            """
-            Loads the OpenAI API key from the .env file or 
-            from the user's input and returns it
-            """
-            # if not hasattr(st.session_state, "api_key"):
-            #     st.session_state.api_key = None
-            #you can define your API key in .env directly
-            if os.path.exists(".env") and os.environ.get("OPENAI_API_KEY") is not None:
-                user_api_key = os.environ["OPENAI_API_KEY"]
-                st.sidebar.success("키 자동입력이 완료되었습니다.", icon="🔑")
-            # else:
-            #     if st.session_state.api_key is not None:
-            #         user_api_key = st.session_state.api_key
-            #         st.sidebar.success("키 등록이 완료되었습니다.", icon="🔑")
-            #     else:
-            #         user_api_key = st.sidebar.text_input(
-            #             label="#### OpenAI API key를 입력해주세요👇", placeholder="sk-...", type="password"
-            #         )
-            #         if user_api_key:
-            #             st.session_state.api_key = user_api_key
-
-            return user_api_key
-
-    user_api_key = load_api_key()
-
-
     uploaded_file = st.sidebar.file_uploader("upload", type="csv")
-
 
     if uploaded_file :
     #use tempfile because CSVLoader only accepts a file_path
@@ -90,7 +59,7 @@ with col5:
         vectorstore = Chroma.from_documents(texts, embeddings)
         
 
-        chain = ConversationalRetrievalChain.from_llm(llm = ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo', openai_api_key=user_api_key), 
+        chain = ConversationalRetrievalChain.from_llm(llm = ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo'), 
                                                     retriever=vectorstore.as_retriever(), verbose=True)
 
         def conversational_chat(query):
