@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 import streamlit as st
 from streamlit_chat import message
 from langchain.embeddings.openai import OpenAIEmbeddings
@@ -15,24 +18,27 @@ st.set_page_config(layout="wide", page_title="🤖💬 AI Chatbot")
 st.sidebar.image("logo1.png", width = 80)
 st.sidebar.write(" ### CSV파일을 업로드 하세요")
 
-col1, col2, col3 = st.columns([3,1,6])
+
 
 # col1: 이미지 표시
+col1, col2, col3 = st.columns([3,4,1])
 with col2:
-    st.image('logo.png', width = 160)
+    st.image('logo.png', width = 300)
 
 # col2: 제목 표시
-with col3:
-    st.markdown(
+st.markdown(
         """
-        <h1 style='text-align: left; font-size: 45px;'> 단디 교통봇 🤖💬</h1>
+        <h1 style='text-align: center; font-size: 60px;'> 단디 교통봇 🤖💬</h1>
         """,
         unsafe_allow_html=True,
     )
 
 col4, col5, col6 = st.columns([1,4,1])
 with col5:
+    
+
     uploaded_file = st.sidebar.file_uploader("upload", type="csv")
+
 
     if uploaded_file :
     #use tempfile because CSVLoader only accepts a file_path
@@ -40,8 +46,7 @@ with col5:
             tmp_file.write(uploaded_file.getvalue())
             tmp_file_path = tmp_file.name
 
-        loader = CSVLoader(file_path=tmp_file_path, encoding="utf-8", csv_args={
-                    'delimiter': ','})
+        loader = CSVLoader(file_path=tmp_file_path, encoding="utf-8", csv_args={'delimiter': ','})
         
         data = loader.load_and_split()
         
