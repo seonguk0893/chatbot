@@ -18,17 +18,13 @@ st.sidebar.write(" ### CSV파일을 업로드 하세요")
 
 
 # col1: 이미지 표시
-col1, col2, col3 = st.columns([3,4,1])
+col1, col2, col3 = st.columns([2,4,1])
 with col2:
     st.image('logo.png', width = 300)
 
 # col2: 제목 표시
-st.markdown(
-        """
-        <h1 style='text-align: center; font-size: 60px;'> 단디 교통봇 🤖💬</h1>
-        """,
-        unsafe_allow_html=True,
-    )
+    st.title("밀양시 :blue[단디교통봇🤖💬]")
+    st.caption('예시1) xxxx년 xx월 xx동의 교통사고 위험지수는 몇이야?  예시2) xx동의 위험지수를 낮추는 방법은 뭐가 있을까?')
 
 col4, col5, col6 = st.columns([1,4,1])
 with col5:
@@ -81,11 +77,10 @@ with col5:
             st.session_state['history'] = []
 
         if 'generated' not in st.session_state: 
-            st.session_state['generated'] = ["""안녕하세요, 단디교통봇입니다. 
-                                            무엇을 도와드릴까요❓ """]
+            st.session_state['generated'] = ["안녕하세요🤗 밀양 단디교통 봇입니다~~ " + uploaded_file.name + "을 바탕으로 정보를 알려드릴게요! "]
 
         if 'past' not in st.session_state:
-            st.session_state['past'] = ["안녕 AI 🖐"]
+            st.session_state['past'] = ["안녕? 👋"]
             
         #container for the chat history
         response_container = st.container()
@@ -97,7 +92,7 @@ with col5:
             with st.form(key='my_form', clear_on_submit=True):
                 
                 user_input = st.text_input("You:", placeholder="텍스트를 입력하세요 ", key='input')
-                submit_button = st.form_submit_button(label='Send')
+                submit_button = st.form_submit_button(label='전송')
                 
             if submit_button and user_input:
                 with st.spinner("Wait for it..."):
